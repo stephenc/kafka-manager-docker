@@ -39,11 +39,10 @@ ENTRYPOINT ["/sbin/tini", "-g", "--"]
 
 COPY rootfs/ /
 
-CMD ["/docker-entrypoint.sh"]
+CMD ["kafka-manager", "-Dhttp.port=8080"]
 
 HEALTHCHECK --interval=5s --timeout=1500ms --start-period=10s --retries=3 CMD ["/docker-healthcheck.sh"]
 
-EXPOSE 9000
-
+EXPOSE 8080
 
 ENV KM_CONFIGFILE="conf/application.conf"

@@ -1,3 +1,17 @@
 == kafka-manager
 
 This is a packaging of link:https://github.com/yahoo/kafka-manager[YAHOO!'s Kafka Manager] in an Alpine based  Docker container
+
+=== Environment variables
+
+`KAFKA_MANAGER_AUTH_ENABLED`:: A boolean, if set to `true` then the manager will be secured with basic authentication.
+
+`KAFKA_MANAGER_USERNAME`:: A string, the username to use for basic auth. Defaults to `admin`
+
+`KAFKA_MANAGER_PASSWORD`:: A string, the passworid to use for basic auth. Defaults to `password`
+
+`ZK_HOSTS`:: A string, the comma separated `host:port` list of the ZooKeeper Quorum. Defaults to `kafka-manager-zookeeper:2181`
+
+`APPLICATION_SECRET`:: A string, the secret key used to secure cryptographic functions in the Play! framework that Kafka Manager is built with.
+
+`CONSUMER_PROPERTIES_FILE`:: A file path, _I don't know what this does yet!!!_
