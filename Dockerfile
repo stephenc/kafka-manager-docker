@@ -14,3 +14,36 @@ RUN curl -fsSL "https://github.com/yahoo/kafka-manager/archive/${KAFKA_MANAGER%%
 
 RUN cd /tmp/kafka-manager \
     && ./sbt clean dist
+
+RUN mkdir -p /opt \
+    && cd /opt \
+    && unzip /tmp/kafka-manager/target/universal/kafka-manager-${KAFKA_MANAGER%%::SHA::*}.zip \
+    && mv kafka-manager-${KAFKA_MANAGER%%::SHA::*} kafka-manager
+
+FROM openjdk:8-jre-alpine
+
+COPY --from=0 /tmp/kafka-manager/target/universal/kafka-manager-*.zip /opt/kafka-manager.zip
+
+RUN apk add --no-cache bash tini \
+    && cd /opt \
+    && unzip kafka-manager.zip \
+    && for n in kafka-manager-* ; do \
+        mv $n kafka-manager; \
+        break ; \
+    done \
+    && ln -s /opt/kafka-manager/bin/kafka-manager /usr/bin/kafka-manager 
+
+WORKDIR /opt/kafka-manager
+
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
+
+COPY rootfs/ /
+
+CMD ["/docker-entrypoint.sh"]
+
+HEALTHCHECK --interval=5s --timeout=1500ms --start-period=10s --retries=3 CMD ["/docker-healthcheck.sh"]
+
+EXPOSE 9000
+
+
+ENV KM_CONFIGFILE="conf/application.conf"
