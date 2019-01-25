@@ -15,3 +15,8 @@ This is a packaging of link:https://github.com/yahoo/kafka-manager[YAHOO!'s Kafk
 `APPLICATION_SECRET`:: A string, the secret key used to secure cryptographic functions in the Play! framework that Kafka Manager is built with.
 
 `CONSUMER_PROPERTIES_FILE`:: A file path, _I don't know what this does yet!!!_
+
+`KM_ADD_CLUSTER`:: A string, if provided then on first start-up the supplied cluster will be seeded using the JSON file at `/opt/cluster-template.json`.
++
+The string is expected to be of the form `CLUSTER_NAME=CLUSTER_ZOOKEEPER`, for example `example=kafka-zookeeper1:2181/acme,kafka-zookeeper2:2181/acme,kafka-zookeeper3:2181/acme`
+
